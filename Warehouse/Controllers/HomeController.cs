@@ -25,8 +25,24 @@ namespace Warehouse.Controllers
 
         public IActionResult Privacy()
         {
-            return View();
+            ProductProcedures pro = new ProductProcedures();
+            var product = pro.SelectProducts();
+            return View(product);
         }
+
+        [HttpPost]
+        public IActionResult Privacy(string name, string company, string image_url)
+        {
+            ProductProcedures product = new ProductProcedures();
+            product.ProductAdd(name, company, image_url);
+
+            ProductProcedures pro = new ProductProcedures();
+            var product_result = pro.SelectProducts();
+            return View(product_result);
+            
+        }
+        
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

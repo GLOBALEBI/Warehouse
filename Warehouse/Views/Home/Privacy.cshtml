@@ -1,6 +1,52 @@
 ﻿@{
     ViewData["Title"] = "Privacy Policy";
 }
+@model IEnumerable<Warehouse.Models.Products>
+
 <h1>@ViewData["Title"]</h1>
 
 <p>Use this page to detail your site's privacy policy.</p>
+
+<form action="/Home/Privacy" method="post">
+    <div>
+        <span id="Name">
+            Name
+        </span>
+        <input type="text" name="name" value="" />
+    </div>
+    <div>
+        <span>
+            Company Name
+        </span>
+        <input type="text" name="company" value="" />
+    </div>
+    <div>
+        <span>
+            Image
+        </span>
+        <input type="text" name="image_url" value="" />
+    </div>
+    <div>
+        <input type="submit" name="damateba" value="damateba" />
+    </div>
+</form>
+
+@if (Model != null)
+{
+    <TABLE border="1">
+        <TR>
+            <TD>Name</TD>
+            <TD>Company</TD>
+            <TD>ImageUrl</TD>
+        </TR>
+        @foreach (var item in Model)
+        {
+            <TR>
+                <TD>@item.Name</TD>
+                <TD>@item.Company</TD>
+                <TD>@item.ImageUrl</TD>
+            </TR>
+        }
+    </TABLE>
+
+}
