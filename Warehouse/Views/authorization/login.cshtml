@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewData["Title"] = "login";
+}
+
+    <form action="/authorization/login" method="post">
+        <div>
+            <span>
+                username
+            </span>
+            <input type="text" name="username" value="" />
+        </div>
+        <div>
+            <span>
+                password
+            </span>
+            <input type="password" name="password" value="" />
+        </div>
+        <div>
+           
+            <input type="submit" name="login" value="login" />
+        </div>
+    </form>
+<div>
+    @ViewBag.login_text
+</div>
+
