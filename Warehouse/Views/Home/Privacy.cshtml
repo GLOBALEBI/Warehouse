@@ -12,19 +12,19 @@
         <span id="Name">
             Name
         </span>
-        <input type="text" name="name" value="" />
+        <input type="text" name="name" value="" required/>
     </div>
     <div>
         <span>
             Company Name
         </span>
-        <input type="text" name="company" value="" />
+        <input type="text" name="company" value="" required/>
     </div>
     <div>
         <span>
             Image
         </span>
-        <input type="text" name="image_url" value="" />
+        <input type="text" name="image_url" value="" required/>
     </div>
     <div>
         <input type="submit" name="damateba" value="damateba" />
@@ -33,8 +33,10 @@
 
 @if (Model != null)
 {
+<form action="/Home/Privacy" method="post">
     <TABLE border="1">
         <TR>
+            <TD style="display:none;">ID</TD>
             <TD>Name</TD>
             <TD>Company</TD>
             <TD>ImageUrl</TD>
@@ -42,11 +44,15 @@
         @foreach (var item in Model)
         {
             <TR>
+                <TD style="display:none;">@item.Id</TD>
                 <TD>@item.Name</TD>
                 <TD>@item.Company</TD>
                 <TD>@item.ImageUrl</TD>
+                <TD><input type="submit" name="@item.Id" value="delete"></TD>
             </TR>
         }
     </TABLE>
+    <input type="submit" name="washla" value="washla" />
+</form>
 
 }

@@ -1,0 +1,68 @@
+﻿@{
+    ViewData["Title"] = "product";
+}
+@model IEnumerable<Warehouse.Models.Products>
+
+<h1>@ViewData["Title"]</h1>
+
+
+
+<form action="/product/productAdd" method="post">
+    @*<div>
+        <span id="Name">
+            Name
+        </span>
+        <input type="text" name="name" value="" required />
+    </div>
+    <div>
+        <span>
+            Company Name
+        </span>
+        <input type="text" name="company" value="" required />
+    </div>
+    <div>
+        <span>
+            Image
+        </span>
+        <input type="text" name="image_url" value="" required />
+    </div>
+    <div>*@
+        <input type="submit" name="damateba" value="Add" />
+    @*</div>*@
+</form>
+
+@if (Model != null)
+{
+    @*<form action="/product/productDelete" method="post">*@
+<TABLE border="1">
+    <TR>
+        <TD style="display:none;">ID</TD>
+        <TD>Name</TD>
+        <TD>Company</TD>
+        <TD>ImageUrl</TD>
+    </TR>
+    @foreach (var item in Model)
+    {
+<TR>
+    <TD style="display:none;" name="ID">@item.Id</TD>
+    <TD>@item.Name</TD>
+    <TD>@item.Company</TD>
+    <TD>@item.ImageUrl</TD>
+    <form action="/product/Index" method="post">
+        <TD>
+            <input type="submit" name="delete" value="delete">
+            @*<form action="/product/Index" method="post">
+                <input type="submit" name="Edit" value="Edit"> 
+            </form>*@
+            <a href="productEdit?ID=@item.Id">Edit</a>
+             <INPUT TYPE="text" NAME="ID" style="display: none" value="@item.Id">
+        </TD>
+    </form>
+</TR>
+        
+    }
+</TABLE>
+        
+    @*</form>*@
+
+}

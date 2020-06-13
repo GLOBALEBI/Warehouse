@@ -23,6 +23,7 @@ namespace Warehouse.Controllers
             if(user!=null && user.Id>0)
             {
                 ViewBag.login_text = "ავტორიზაცია წარმატებით დასრულდა";
+                Response.Redirect("/product/Index");
             }
             else
             {

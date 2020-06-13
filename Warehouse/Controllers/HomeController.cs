@@ -41,7 +41,18 @@ namespace Warehouse.Controllers
             return View(product_result);
             
         }
-        
+
+        [HttpPost]
+        public IActionResult Privacy(string ID)
+        {
+            ProductProcedures product = new ProductProcedures();
+            product.ProductRemove(Convert.ToInt32(ID));
+
+            ProductProcedures pro = new ProductProcedures();
+            var product_result = pro.SelectProducts();
+            return View(product_result);
+
+        }
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

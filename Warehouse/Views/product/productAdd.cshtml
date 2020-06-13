@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewData["Title"] = "product Add";
+}
+    <h1>@ViewData["Title"]</h1>
+
+<form action="/product/Index" method="post">
+    <div>
+        <span id="Name">
+            Name
+        </span>
+        <input type="text" name="name" value="" required />
+    </div>
+    <div>
+        <span>
+            Company Name
+        </span>
+        <input type="text" name="company" value="" required />
+    </div>
+    <div>
+        <span>
+            Image
+        </span>
+        <input type="text" name="image_url" value="" required />
+    </div>
+    <div>
+        <input type="submit" name="damateba" value="Add" />
+    </div>
+</form>

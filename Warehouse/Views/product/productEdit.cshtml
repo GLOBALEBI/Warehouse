@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewData["Title"] = "product Edit";
+}
+@model Warehouse.Models.Products
+<h1>@ViewData["Title"]</h1>
+
+<form action="/product/productEdit" method="post">
+    <input type="text" name="ID" value="@Model.Id" hidden />
+    <div>
+        <span id="Name">
+            Name
+        </span>
+        <input type="text" name="name" value="@Model.Name" required />
+    </div>
+    <div>
+        <span>
+            Company Name
+        </span>
+        <input type="text" name="company" value="@Model.Company" required />
+    </div>
+    <div>
+        <span>
+            Image
+        </span>
+        <input type="text" name="image_url" value="@Model.ImageUrl" required />
+    </div>
+    <div>
+        <input type="submit" name="Edit" value="Edit" />
+    </div>
+
+</form>
+
