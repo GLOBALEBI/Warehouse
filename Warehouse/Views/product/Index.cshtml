@@ -4,8 +4,10 @@
 @model IEnumerable<Warehouse.Models.Products>
 
 <h1>@ViewData["Title"]</h1>
-
-
+<head>
+    <title>Registration form</title>
+    <link href="~/css/StyleForPrivacy.css" rel="stylesheet">
+</head>
 
 <form action="/product/productAdd" method="post">
     @*<div>
@@ -27,7 +29,7 @@
         <input type="text" name="image_url" value="" required />
     </div>
     <div>*@
-        <input type="submit" name="damateba" value="Add" />
+        
     @*</div>*@
 </form>
 
@@ -35,7 +37,7 @@
 {
     @*<form action="/product/productDelete" method="post">*@
 <TABLE border="1">
-    <TR>
+    <TR id="firstColumn">
         <TD style="display:none;">ID</TD>
         <TD>Name</TD>
         <TD>Company</TD>
@@ -50,7 +52,7 @@
     <TD>@item.ImageUrl</TD>
     <form action="/product/Index" method="post">
         <TD>
-            <input type="submit" name="delete" value="delete">
+            <input id="Deletebtn" type="submit" name="delete" value="delete">
             @*<form action="/product/Index" method="post">
                 <input type="submit" name="Edit" value="Edit"> 
             </form>*@
@@ -62,7 +64,7 @@
         
     }
 </TABLE>
-        
+<input type="submit" name="damateba" value="Add" />
     @*</form>*@
 
 }
