@@ -4,7 +4,7 @@
 }
     <h1>@ViewData["Title"]</h1>
 
-<form action="/product/Index" method="post">
+<form action="/product/Index" method="post" enctype="multipart/form-data">
     <div>
         <span id="Name">
             Name
@@ -21,7 +21,8 @@
         <span>
             Image
         </span>
-        <input type="text" name="image_url" value="" required />
+        <input type="file" name="formFile">
+        @*<input type="text" name="image_url" value="" required />*@
     </div>
     <div>
         <input type="submit" name="damateba" value="Add" />

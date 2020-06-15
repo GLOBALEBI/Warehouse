@@ -5,7 +5,7 @@
 @model Warehouse.Models.Products
 <h1>@ViewData["Title"]</h1>
 
-<form action="/product/productEdit" method="post">
+<form action="/product/productEdit" method="post" enctype="multipart/form-data">
     <input type="text" name="ID" value="@Model.Id" hidden />
     <div>
         <span id="Name">
@@ -23,7 +23,9 @@
         <span>
             Image
         </span>
-        <input type="text" name="image_url" value="@Model.ImageUrl" required />
+        <img height="80" src="/@Model.ImageUrl">
+        @*<input type="text" name="image_url" value="@Model.ImageUrl" required />*@
+        <input type="file" name="formFile">
     </div>
     <div>
         <input type="submit" name="Edit" value="Edit" />

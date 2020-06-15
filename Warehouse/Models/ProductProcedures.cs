@@ -35,7 +35,11 @@ namespace Warehouse.Models
                 product = db.Products.FirstOrDefault(x => x.Id == id);
                 product.Name = name;
                 product.Company = company;
-                product.ImageUrl = image_url;
+                if (image_url != null)
+                {
+                    product.ImageUrl = image_url;
+                }
+                
                 db.Update(product);
                 db.SaveChanges();
             }
@@ -44,16 +48,6 @@ namespace Warehouse.Models
                 throw new Exception(ex.Message);
             }
         }
-
-
-        //public void ProductIMG(int id, string image_url)         //პროდუქტის სურათის ატვირთვა/ცვლილება
-        //{
-        //    Products product = new Products();
-        //    product = db.Products.FirstOrDefault(x => x.Id == id);
-        //    product.ImageUrl = image_url;
-        //    db.Update(product);
-        //    db.SaveChanges();
-        //}
 
 
         public void ProductRemove(int id)                  //პროდუქტის წაშლა
@@ -100,13 +94,22 @@ namespace Warehouse.Models
             return prod;
         }
 
-
-        //public IEnumerable<Products> SelectProducts { get; set; }
-
-        //public async Task OnGet()
-        //{
-        //    SelectProducts = await db.Products.ToListAsync();
-        //}
+        public List<Products> searchProducts(string name=null, string company=null)
+        {
+            List<Products> prod = new List<Products>();
+            if (name != null)
+            {
+                prod = db.Products.Where(x => x.Name.Contains(name)).ToList();
+            }
+            else 
+            if (company!=null)      
+            {
+                prod = db.Products.Where(x => x.Company.Contains(company)).ToList();
+            }
+            
+            return prod;
+            
+        }
 
     }
 }

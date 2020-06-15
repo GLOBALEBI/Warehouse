@@ -1,7 +1,12 @@
 ﻿@{
     ViewData["Title"] = "product";
 }
+
+
 @model IEnumerable<Warehouse.Models.Products>
+
+
+
 
 <h1>@ViewData["Title"]</h1>
 <head>
@@ -9,62 +14,45 @@
     <link href="~/css/StyleForPrivacy.css" rel="stylesheet">
 </head>
 
-<form action="/product/productAdd" method="post">
-    @*<div>
-        <span id="Name">
-            Name
-        </span>
-        <input type="text" name="name" value="" required />
-    </div>
-    <div>
-        <span>
-            Company Name
-        </span>
-        <input type="text" name="company" value="" required />
-    </div>
-    <div>
-        <span>
-            Image
-        </span>
-        <input type="text" name="image_url" value="" required />
-    </div>
-    <div>*@
-        
-    @*</div>*@
-</form>
 
 @if (Model != null)
 {
-    @*<form action="/product/productDelete" method="post">*@
-<TABLE border="1">
-    <TR id="firstColumn">
-        <TD style="display:none;">ID</TD>
-        <TD>Name</TD>
-        <TD>Company</TD>
-        <TD>ImageUrl</TD>
-    </TR>
-    @foreach (var item in Model)
-    {
-<TR>
-    <TD style="display:none;" name="ID">@item.Id</TD>
-    <TD>@item.Name</TD>
-    <TD>@item.Company</TD>
-    <TD>@item.ImageUrl</TD>
-    <form action="/product/Index" method="post">
-        <TD>
-            <input id="Deletebtn" type="submit" name="delete" value="delete">
-            @*<form action="/product/Index" method="post">
-                <input type="submit" name="Edit" value="Edit"> 
-            </form>*@
-            <a href="productEdit?ID=@item.Id">Edit</a>
-             <INPUT TYPE="text" NAME="ID" style="display: none" value="@item.Id">
-        </TD>
+    <form action="Index" method="post">
+        <input id="Radio1" type="radio" value="name" checked="checked" name="searchComponent" />
+        <label for="name">name</label>
+        <input id="Radio1" type="radio" value="company_name" name="searchComponent" />
+        <label for="name">company</label>
+        <input type="text" name="name1" />
+        <input type="submit" name="search" value="search" />
     </form>
-</TR>
-        
-    }
-</TABLE>
-<input type="submit" name="damateba" value="Add" />
-    @*</form>*@
+    <TABLE border="1">
+        <TR id="firstColumn">
+            <TD style="display:none;">ID</TD>
+            <TD>Name</TD>
+            <TD>Company</TD>
+            <TD>ImageUrl</TD>
+        </TR>
+        @foreach (var item in Model)
+        {
+            <TR>
+                <TD style="display:none;" name="ID">@item.Id</TD>
+                <TD>@item.Name</TD>
+                <TD>@item.Company</TD>
+                <TD>@*@item.ImageUrl*@ <img height="80" src="/@item.ImageUrl"> </TD>
+                <form action="/product/Index" method="post">
+                    <TD>
+                        <input id="Deletebtn" type="submit" name="delete" value="delete">
+                        <a href="productEdit?ID=@item.Id">Edit</a>
+                        <INPUT TYPE="text" NAME="ID" style="display: none" value="@item.Id">
+                    </TD>
+                </form>
+            </TR>
+
+        }
+    </TABLE>
 
 }
+<form action="/product/productAdd" method="post">
+    <input type="submit" name="damateba" value="Add" />
+</form>
+
