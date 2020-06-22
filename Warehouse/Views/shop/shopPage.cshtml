@@ -1,0 +1,58 @@
+﻿@{
+    ViewData["Title"] = "shop";
+}
+
+
+@model IEnumerable<Warehouse.Models.Shop>
+
+<h1>@ViewData["Title"]</h1>
+<head>
+    <title>Registration form</title>
+    <link href="~/css/StyleForPrivacy.css" rel="stylesheet">
+</head>
+
+
+@if (Model != null)
+{
+    <form action="shopPage" method="post">
+        <input id="Radio1" type="radio" value="name" checked="checked" name="searchComponent" />
+        <label for="name">name</label>
+        <input id="Radio1" type="radio" value="Address" name="searchComponent" />
+        <label for="name">Address</label>
+        <input type="text" name="name1" required/>
+        <input type="submit" name="search" value="search" />
+    </form>
+    <TABLE border="1">
+        <TR id="firstColumn">
+            <TD style="display:none;">ID</TD>
+            <TD>Name</TD>
+            <TD>Address</TD>
+            <TD>ShopType</TD>
+        </TR>
+        @foreach (var item in Model)
+        {
+    <TR>
+        <TD style="display:none;" name="ID">@item.Id</TD>
+        <TD>@item.Name</TD>
+        <TD>@item.Address</TD>
+        <TD> @{
+            ShopProcedures shop = new ShopProcedures();
+            var shopType = shop.GetShopTypeByID(item.ShopTypeId);            
+        } @shopType.Type </TD>
+        <form action="/shop/shopPage" method="post">
+            <TD>
+                <input id="Deletebtn" type="submit" name="delete" value="delete">
+                <a href="productEdit?ID=@item.Id">Edit</a>
+                <INPUT TYPE="text" NAME="ID" style="display: none" value="@item.Id">
+            </TD>
+        </form>
+    </TR>
+
+        }
+    </TABLE>
+
+}
+<form action="/Shop/shopadd" method="post">
+    <input type="submit" name="damateba" value="Add" />
+</form>
+

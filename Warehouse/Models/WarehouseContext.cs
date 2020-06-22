@@ -26,7 +26,7 @@ namespace Warehouse.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-V2M0RBJ\\SQLEXPRESS;Database=Warehouse;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=localhost;Database=Warehouse;Trusted_Connection=True;");
             }
         }
 
