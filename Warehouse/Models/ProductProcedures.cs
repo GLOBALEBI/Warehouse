@@ -17,12 +17,24 @@ namespace Warehouse.Models
        
         public void ProductAdd(string name, string company, string image_url)      //პროდუქტის დამატება
         {
-            Products product = new Products();
-            product.Name = name;
-            product.Company = company;
-            product.ImageUrl = image_url;
-            db.Add(product);
-            db.SaveChanges();            
+            try
+            {
+                db.Database.BeginTransaction();
+                Products product = new Products();
+                product.Name = name;
+                product.Company = company;
+                product.ImageUrl = image_url;
+                db.Add(product);
+                db.SaveChanges();
+                db.Database.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+
+                db.Database.RollbackTransaction();
+                throw new Exception(ex.Message);
+
+            }
         }
 
         public void ProductUpdate(int id, string name, string company, string image_url)         //პროდუქტის ძირითადი ინფორმაციის ცვლილება

@@ -11,81 +11,160 @@ namespace Warehouse.Controllers
 {
     public class ShopController : Controller
     {
+        public static int pagenumber { get; set; }
+        
+       
         public IActionResult Index()
         {
-            return View();
+            if (HttpContext.Session.GetString("username") == "admin") { 
+                return View(); 
+            }
+            else
+            {
+                return RedirectToAction("login", "authorization");
+            }
         }
        
-        public IActionResult shopPage()
+        public IActionResult shopPage(int ID=1)
         {
-            ShopProcedures pro = new ShopProcedures();
-            var shop = pro.SelectShop();
-            return View(shop);
+
+            if (HttpContext.Session.GetString("username") == "admin")
+            {
+                ShopProcedures pro = new ShopProcedures();
+                var shop = pro.GetShopsPage(pro.SelectShop(), ID);
+                return View(shop);
+            }
+            else
+            {
+                return RedirectToAction("login", "authorization");
+            }
+
         }
 
         public IActionResult ShopAdd()
         {
-            ShopProcedures pro = new ShopProcedures();
-            var shop = pro.GetShopTypes();
-            return View(shop);
+            if (HttpContext.Session.GetString("username") == "admin")
+            {
+                ShopProcedures pro = new ShopProcedures();
+                var shop = pro.GetShopTypes();
+                return View(shop);
+            }
+            else
+            {
+                return RedirectToAction("login", "authorization");
+            }
         }
 
         [HttpPost]
         public IActionResult shopPage(string ID, string name, string Address, string Type, string name1, string searchComponent)
         {
-            //try
-            //{
-
-                if (name1 != null)
+            try
+            {
+                if (HttpContext.Session.GetString("username") == "admin")
                 {
-                    if (searchComponent == "name")
+                    if (name1 != null)
+                    {
+                        ViewBag.name1 = name1;
+                        if (searchComponent == "name")
+                        {
+                            ShopProcedures shop = new ShopProcedures();
+                            var shop_result = shop.searchShop(name1, null);
+
+                            ViewBag.searchComponent = "name";
+
+
+                            return View(shop_result);
+                        }
+                        else if (searchComponent == "type")
+                        {
+                            ShopProcedures shop = new ShopProcedures();
+                            var shop_result = shop.searchShop(null, null, name1);
+                            ViewBag.searchComponent = "type";
+                            return View(shop_result);
+                        }
+                        else if (searchComponent == "Address")
+                        {
+                            ShopProcedures shop = new ShopProcedures();
+                            var shop_result = shop.searchShop(null, name1);
+                            ViewBag.searchComponent = "Address";
+                            return View(shop_result);
+                        }
+
+                    }
+
+
+                    if (Convert.ToInt32(ID) != 0)
                     {
                         ShopProcedures shop = new ShopProcedures();
-                        var shop_result = shop.searchShop(name1, null);
+                        shop.ShopRemove(Convert.ToInt32(ID));
+
+                        ShopProcedures selectshop = new ShopProcedures();
+                        var shop_result = selectshop.GetShopsPage(selectshop.SelectShop(), 1);
                         return View(shop_result);
                     }
                     else
                     {
-                        ShopProcedures shop = new ShopProcedures();
-                        var shop_result = shop.searchShop(null, name1);
-                        return View(shop_result);
+                        //string image_url = uploadfile(formFile);
+                        ShopProcedures Shop = new ShopProcedures();
+                        //product.ProductAdd(name, company, image_url);
+                        var shoptype = Shop.GetShopType(Type);
+                        Shop.ShopAdd(name, Address, shoptype.Id);
+
+                        ShopProcedures pro = new ShopProcedures();
+                        int lastpage = (pro.SelectShop().Count() / 5) + 1;
+                        var shop = pro.GetShopsPage(pro.SelectShop(), lastpage);
+                        return View(shop);
                     }
-
-                }
-
-
-                if (Convert.ToInt32(ID) != 0)
-                {
-                    ShopProcedures shop = new ShopProcedures();
-                    shop.ProductRemove(Convert.ToInt32(ID));
-
-                    ProductProcedures pro = new ProductProcedures();
-                    var product_result = pro.SelectProducts();
-                    return View(product_result);
                 }
                 else
                 {
-                    //string image_url = uploadfile(formFile);
-                    ShopProcedures Shop = new ShopProcedures();
-                    //product.ProductAdd(name, company, image_url);
-                    var shoptype = Shop.GetShopType(Type);
-                    Shop.ShopAdd(name, Address, shoptype.Id);
-
-                    ShopProcedures pro = new ShopProcedures();
-                    var shop = pro.SelectShop();
-                    return View(shop);
+                    return RedirectToAction("login", "authorization");
                 }
-            //}
-            //catch (Exception ex)
-            //{
-            //    Response.Redirect("/Home/Error");
-            //    return View();
-            //}
+            }
+            catch (Exception ex)
+            {
+                Response.Redirect("/Home/Error");
+                return View();
+            }
         }
 
-        public IActionResult productDelete()
+        [HttpGet]
+        public IActionResult shopEdit(int ID)
         {
-            return View();
+            if (HttpContext.Session.GetString("username") == "admin")
+            {
+                ShopProcedures shop = new ShopProcedures();
+                var result = shop.GetShopInfo(ID);
+                return View(result);
+            }
+            else
+            {
+                return RedirectToAction("login", "authorization");
+            }
+        }
+
+        [HttpPost]
+        public IActionResult shopEdit(int ID, string name, string address, string Type)
+        {
+            try
+            {
+                if (HttpContext.Session.GetString("username") == "admin")
+                {
+
+                    ShopProcedures shop = new ShopProcedures();
+                    shop.ShopUpdate(ID, name, address, Type);
+
+                    return RedirectToAction("shoppage", "Shop");
+                }
+                else
+                {
+                    return RedirectToAction("login", "authorization");
+                }
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Error", "Home");
+            }
         }
 
 

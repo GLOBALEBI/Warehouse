@@ -13,6 +13,8 @@ namespace Warehouse.Models
 {
     public class ShopProcedures : PageModel
     {
+        
+
         WarehouseContext db = new WarehouseContext();
 
         public void ShopAdd(string name, string Address, int ShopType)      
@@ -48,7 +50,7 @@ namespace Warehouse.Models
             return shopType;
         }
 
-        public void ShopUpdate(int id, string name, string Address, ShopTypes ShopType)        
+        public void ShopUpdate(int id, string name, string Address, string ShopType)        
         {
             try
             {
@@ -58,11 +60,8 @@ namespace Warehouse.Models
                 Shop = db.Shop.FirstOrDefault(x => x.Id == id);
                 Shop.Name = name;
                 Shop.Address = Address;
-                if (ShopType != null)
-                {
-                    Shop.ShopType = ShopType;
-                }
-                
+                var shoptype = GetShopType(ShopType);
+                Shop.ShopTypeId = shoptype.Id;
                 db.Update(Shop);
                 db.SaveChanges();
             }
@@ -73,7 +72,7 @@ namespace Warehouse.Models
         }
 
 
-        public void ProductRemove(int id)                 
+        public void ShopRemove(int id)                 
         {
             try
             {
@@ -119,7 +118,7 @@ namespace Warehouse.Models
 
 
 
-        public List<Shop> searchShop(string name = null, string Address = null, ShopTypes ShopType = null)
+        public List<Shop> searchShop(string name = null, string Address = null, string ShopType = null)
         {
             List<Shop> Shop = new List<Shop>();
             if (name != null)
@@ -134,10 +133,36 @@ namespace Warehouse.Models
             else
             if (ShopType != null)
             {
-                Shop = db.Shop.Where(x => x.ShopType.ToString().Contains(ShopType.ToString())).ToList();
+                var shoptype = db.ShopTypes.FirstOrDefault(x => x.Type.Contains(ShopType));
+                Shop = db.Shop.Where(x => x.ShopTypeId == shoptype.Id).ToList();
+
             }            
             return Shop;
+        }
 
+
+        public List<Shop> GetShopsPage(List<Shop> shops, int page)     //პარამეტრად იღებს მაღაზიების სიას და გვერდის ნომერს
+        {                                                                  //და აბრუნებს შესაბამისი გვერძე გამოსაჩენ მაღაზიების სიას.
+            int shopsize = shops.Count();
+            
+            List<Shop> ShopsPage = new List<Shop>();
+            int i = (page - 1) * 5;      //დასაწყისი
+            int j = (page * 5)-1;      //დასასრული
+            while (i <= j)
+            {
+                if (i <= shops.Count()-1)
+                {
+                    ShopsPage.Add(shops[i]);
+                    i++;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return ShopsPage;
+            
         }
 
     }

@@ -1,0 +1,113 @@
+﻿
+@{
+    ViewData["Title"] = "shop product";
+    WarehouseContext db = new WarehouseContext();
+    ShopProcedures shop = new ShopProcedures();
+}
+
+@model IEnumerable<Warehouse.Models.ShopProducts>
+
+
+<h1>@ViewData["Title"]</h1>
+<head>
+    <title>Registration form</title>
+    <link href="~/css/StyleForPrivacy.css" rel="stylesheet">
+</head>
+
+
+
+<form action="/ShopProduct/Index" method="post">
+    <select name="shop_id" id="shop_id" @*onchange="changeshopid()"*@>
+        @{
+            var shops = db.Shop.ToList();
+        }
+        @foreach (var item in shops)
+        {
+            @if (item.Name == ViewBag.selected)
+            {
+                <option value="@item.Id" selected> @item.Name </option>
+            }
+            else
+            {
+                <option value="@item.Id"> @item.Name </option>
+            }
+        }
+    </select>
+
+    <input type="submit" name="search" value="search" />
+</form>
+
+@if (Model != null)
+{
+    <TABLE border="1">
+        <TR id="firstColumn">
+            <TD style="display:none;">ID</TD>
+            <TD>Shop Name</TD>
+            <TD>Product Name</TD>
+            <TD>Barcode</TD>
+            <TD>Price</TD>
+        </TR>
+        @foreach (var item in Model)
+        {
+            <TR>
+                <TD style="display:none;" name="ID">@item.Id</TD>
+                <TD>
+                    @{
+                        var shopname = db.Shop.FirstOrDefault(x => x.Id == item.ShopId);
+                    }
+                    @shopname.Name
+                </TD>
+                <TD>
+                    @{
+                        var productname = db.Products.FirstOrDefault(x => x.Id == item.ProductId);
+                    }
+                    @productname.Name
+                </TD>
+                <TD>
+                    @item.Barcode
+                </TD>
+                <TD>
+                    @item.Price
+                </TD>
+
+            </TR>
+
+        }
+    </TABLE>
+    <div style="margin-top:20px;">
+        <form action="/ShopProduct/Index" method="post">
+            <input type="text" name="shop_id2" id="shop_id2" hidden />
+
+            <label>product name</label>
+            <select name="productName">
+                @{
+                    var products = db.Products.ToList();
+                }
+                @foreach (var item in products)
+                {
+                    
+                    <option value="@item.Name" > @item.Name </option>
+                   
+                    
+                }
+            </select>
+            <label>product barcode</label>
+            <input type="text" name="barcode" required/>
+            <label>product price</label>
+            <input type="text" name="productPrice" required/>
+            <input type="submit" name="Add" value="Add" />
+
+        </form>
+    </div>
+  }
+<script>
+    //function changeshopid() {
+    //    document.getElementById("shop_id2").value = document.getElementById("shop_id").value;
+
+    //}
+    
+        document.getElementById("shop_id2").value = document.getElementById("shop_id").value;
+    
+</script>
+
+

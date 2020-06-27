@@ -1,12 +1,19 @@
 ﻿@{
     ViewData["Title"] = "login";
 }
+
 <head>
     <title>Registration form</title>
     <link href="~/css/StyleForHome.css" rel="stylesheet">
 </head>
 
 <body>
+    @if (ViewBag.login_text == "username or password incorect!")
+    {
+    <script>
+        window.alert("@ViewBag.login_text");
+    </script>
+    }
     <form id="form1" action="/authorization/login" method="post">
         <section>
             <div class="container" id="MiddleContainer">
@@ -34,7 +41,5 @@
         </section>
     </form>
 </body>
-<div>
-    @ViewBag.login_text
-</div>
+
 

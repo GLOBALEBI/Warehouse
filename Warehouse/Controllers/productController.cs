@@ -22,9 +22,16 @@ namespace Warehouse.Controllers
         }
         public IActionResult Index()
         {
-            ProductProcedures pro = new ProductProcedures();
-            var product = pro.SelectProducts();
-            return View(product);
+            if (HttpContext.Session.GetString("username") == "admin")
+            {
+                ProductProcedures pro = new ProductProcedures();
+                var product = pro.SelectProducts();
+                return View(product);
+            }
+            else
+            {
+                return RedirectToAction("login", "authorization");
+            }
         }
 
         [HttpPost]
@@ -32,43 +39,49 @@ namespace Warehouse.Controllers
         {
             try
             {
-                
-                if(name1 != null )
+                if (HttpContext.Session.GetString("username") == "admin")
                 {
-                    if(searchComponent== "name")
+                    if (name1 != null)
                     {
+                        if (searchComponent == "name")
+                        {
+                            ProductProcedures pro = new ProductProcedures();
+                            var product_result = pro.searchProducts(name1, null);
+                            return View(product_result);
+                        }
+                        else
+                        {
+                            ProductProcedures pro = new ProductProcedures();
+                            var product_result = pro.searchProducts(null, name1);
+                            return View(product_result);
+                        }
+
+                    }
+
+
+                    if (Convert.ToInt32(ID) != 0)
+                    {
+                        ProductProcedures product1 = new ProductProcedures();
+                        product1.ProductRemove(Convert.ToInt32(ID));
+
                         ProductProcedures pro = new ProductProcedures();
-                        var product_result = pro.searchProducts(name1, null);
+                        var product_result = pro.SelectProducts();
                         return View(product_result);
                     }
-                    else                
+                    else
                     {
+                        string image_url = uploadfile(formFile);
+                        ProductProcedures product = new ProductProcedures();
+                        product.ProductAdd(name, company, image_url);
+
                         ProductProcedures pro = new ProductProcedures();
-                        var product_result = pro.searchProducts(null, name1);
+                        var product_result = pro.SelectProducts();
                         return View(product_result);
                     }
-                   
-                }
-
-
-                if (Convert.ToInt32(ID) != 0)
-                {
-                    ProductProcedures product1 = new ProductProcedures();
-                    product1.ProductRemove(Convert.ToInt32(ID));
-
-                    ProductProcedures pro = new ProductProcedures();
-                    var product_result = pro.SelectProducts();
-                    return View(product_result);
                 }
                 else
                 {
-                    string image_url = uploadfile(formFile);
-                    ProductProcedures product = new ProductProcedures();
-                    product.ProductAdd(name, company, image_url);
-
-                    ProductProcedures pro = new ProductProcedures();
-                    var product_result = pro.SelectProducts();
-                    return View(product_result);
+                    return RedirectToAction("login", "authorization");
                 }
             }
             catch (Exception ex)
@@ -81,9 +94,16 @@ namespace Warehouse.Controllers
         [HttpGet]
         public IActionResult productEdit(int ID)
         {
-            ProductProcedures product = new ProductProcedures();
-            var result = product.GetProductInfo(ID);
-            return View(result);
+            if (HttpContext.Session.GetString("username") == "admin")
+            {
+                ProductProcedures product = new ProductProcedures();
+                var result = product.GetProductInfo(ID);
+                return View(result);
+            }
+            else
+            {
+                return RedirectToAction("login", "authorization");
+            }
         }
 
         [HttpPost]
@@ -91,18 +111,24 @@ namespace Warehouse.Controllers
         {          
             try
             {
-                string image_url = null;
-                if (formFile != null)
+                if (HttpContext.Session.GetString("username") == "admin")
                 {
-                   image_url = uploadfile(formFile);
+                    string image_url = null;
+                    if (formFile != null)
+                    {
+                        image_url = uploadfile(formFile);
+                    }
+
+                    ProductProcedures product = new ProductProcedures();
+                    product.ProductUpdate(ID, name, company, image_url);
+                    //Response.Redirect("/product/Index");
+                    //return View("~/View/product/Index.aspx");
+                    return RedirectToAction("Index", "product");
                 }
-                
-                ProductProcedures product = new ProductProcedures();
-                product.ProductUpdate(ID, name, company, image_url);
-                //Response.Redirect("/product/Index");
-                //return View("~/View/product/Index.aspx");
-                return RedirectToAction("Index", "product");
-                
+                else
+                {
+                    return RedirectToAction("login", "authorization");
+                }
             }
             catch(Exception ex)
             {
@@ -117,7 +143,14 @@ namespace Warehouse.Controllers
 
         public IActionResult productAdd()
         {
-            return View();
+            if (HttpContext.Session.GetString("username") == "admin")
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("login", "authorization");
+            }
         }
 
 
