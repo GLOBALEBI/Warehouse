@@ -9,17 +9,18 @@ table {
 
 th, td {
     text-align: left;
-    padding: 5px;    
+    padding: 5px;
 }
 
 tr:nth-child(even) {
-    background-color: #f2f2f2 !important;    
+    background-color: #f2f2f2 !important;
 }
 
 th {
     background-color: #4CAF50 !important;
     color: white;
 }
+
 #firstColumn {
     background-color: #0080FF;
     font-weight: 600;

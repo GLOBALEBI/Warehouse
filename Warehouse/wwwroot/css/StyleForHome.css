@@ -32,20 +32,20 @@ span {
     display: block;
 }
 
+
+
 #MiddleContainer .registration {
     margin-top: 20%;
+    position: center;
 }
 
 #TitleOfRegistration {
     margin-top: 5%;
 }
 
-#MiddleContainer .btn {
-    top: 60%;
-    left: 50%;
-    position: absolute;
-    transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
+#btn {
+    transform: translate(0, 10%);
+    -ms-transform: translate(-10%, -10%);
     background-color: #f1f1f1;
     color: black;
     font-size: 16px;
@@ -55,15 +55,16 @@ span {
     border-radius: 5px;
     text-align: center;
     width: 20%;
+    height: auto;
 }
 
-    #MiddleContainer .btn:hover {
+    #btn:hover {
         background-color: black;
         color: white;
     }
 
 header {
-    visibility: hidden;
+    visibility: hidden !important;
 }
 
 .UserAndPass {
